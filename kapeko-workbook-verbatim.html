@@ -1,0 +1,2196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SONG Commerce AI Labs · Level 1 Learner Workbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EEE8DA; --paper-raised: #F7F3E9; --espresso: #2E1D14; --espresso-soft: #4A3626;
+    --line: #DAD0BA; --amber: #B4791F; --amber-deep: #8C5C15; --cream-fg: #FBF8F1; --done-bg: #2E1D14;
+    --radius: 3px; --font-display: 'Fraunces', serif; --font-body: 'IBM Plex Sans', sans-serif; --font-mono: 'IBM Plex Mono', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1B140F; --paper-raised: #241B14; --espresso: #F3ECDF; --espresso-soft: #C9BBA4;
+      --line: #3A2C20; --amber: #D89A3E; --amber-deep: #E3AE5C; --cream-fg: #241B14; --done-bg: #D89A3E;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1B140F; --paper-raised: #241B14; --espresso: #F3ECDF; --espresso-soft: #C9BBA4;
+    --line: #3A2C20; --amber: #D89A3E; --amber-deep: #E3AE5C; --cream-fg: #241B14; --done-bg: #D89A3E;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--espresso); font-family: var(--font-body); min-height: 100vh; }
+  .shell { display: flex; min-height: 100vh; max-width: 1260px; margin: 0 auto; }
+
+  .sidebar { width: 302px; min-width: 230px; flex-shrink: 0; border-right: 1px solid var(--line); padding: 26px 20px 40px; overflow-y: auto; max-height: 100vh; position: sticky; top: 0; }
+  .brand { display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+  .brand-mark { font-family: var(--font-display); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+  .brand-level { font-family: var(--font-mono); font-size: 10px; color: var(--amber-deep); }
+  .brand-sub { font-size: 11.5px; color: var(--espresso-soft); margin: 3px 0 18px; line-height: 1.5; }
+
+  .progress-wrap { margin-bottom: 22px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--espresso-soft); margin-bottom: 6px; font-family: var(--font-mono); }
+  .progress-track { height: 5px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--amber); width: 0%; transition: width .35s ease; }
+
+  .module-group { margin-bottom: 16px; }
+  .module-title { font-size: 11px; color: var(--espresso-soft); font-weight: 500; margin: 0 0 6px 2px; }
+  .lesson-item { display: flex; align-items: flex-start; gap: 8px; width: 100%; text-align: left; background: none; border: none; padding: 6px 6px; border-radius: var(--radius); cursor: pointer; color: var(--espresso); font-family: var(--font-body); font-size: 12.8px; line-height: 1.4; }
+  .lesson-item:hover { background: var(--paper-raised); }
+  .lesson-item.active { background: var(--paper-raised); box-shadow: inset 2px 0 0 var(--amber); }
+  .check { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--espresso-soft); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; }
+  .check svg { width: 7px; height: 7px; display: none; }
+  .lesson-item.done .check { background: var(--done-bg); border-color: var(--done-bg); }
+  .lesson-item.done .check svg { display: block; }
+  .lesson-item.done .lesson-text { color: var(--espresso-soft); }
+
+  .content { flex: 1; padding: 40px 54px 80px; min-width: 0; }
+  .crumb { font-family: var(--font-mono); font-size: 11px; color: var(--amber-deep); margin-bottom: 10px; }
+  h1.lesson-title { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.18; margin: 0 0 26px; max-width: 30ch; }
+  .lesson-body { max-width: 72ch; font-size: 15.5px; line-height: 1.7; }
+  .lesson-body p { margin: 0 0 16px; }
+  .lesson-body ul, .lesson-body ol { margin: 0 0 20px; padding-left: 22px; }
+  .lesson-body li { margin-bottom: 6px; }
+  .lesson-body p.wb-heading { font-family: var(--font-display); font-weight: 600; font-size: 19px; margin: 30px 0 10px; }
+  .lesson-body p.wb-heading:first-child { margin-top: 0; }
+  .lesson-body blockquote { background: var(--paper-raised); border-left: 3px solid var(--amber); border-radius: var(--radius); padding: 4px 18px; margin: 20px 0; font-size: 14.5px; }
+  .lesson-body blockquote p { margin: 12px 0; }
+  .lesson-body table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 13.5px; }
+  .lesson-body th, .lesson-body td { border: 1px solid var(--line); padding: 7px 9px; text-align: left; vertical-align: top; }
+  .lesson-body th { background: var(--paper-raised); font-weight: 600; }
+  .lesson-body strong { color: var(--espresso); }
+
+  .nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .nav-btn { font-family: var(--font-body); font-size: 13.5px; padding: 9px 15px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--paper-raised); color: var(--espresso); cursor: pointer; }
+  .nav-btn.primary { background: var(--espresso); color: var(--cream-fg); border-color: var(--espresso); }
+  .nav-btn:disabled { opacity: .35; cursor: default; }
+
+  @media (max-width: 780px) {
+    .shell { flex-direction: column; }
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--line); position: static; max-height: none; }
+    .content { padding: 30px 20px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">Kape Ko</span><span class="brand-level">LEVEL 1</span></div>
+    <p class="brand-sub">SONG Commerce AI Labs · Learner Workbook v4.0 — full text, as written</p>
+    <div class="progress-wrap">
+      <div class="progress-label"><span id="progress-text">0 / 32 complete</span><span id="progress-pct">0%</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <div id="sidebar-modules"></div>
+  </aside>
+  <main class="content" id="content"></main>
+</div>
+<script>
+const lessons = [
+{ id:'wb-01', module:'Orientation', title:'SONG Commerce AI Labs — Overview', body:`<p>Season 1 · Level 1: Commerce Explorer</p>
+<p class="wb-heading"><strong>Labs 1 &amp; 2 · Kape Ko Coffee Subscription</strong></p>
+<p>M365 Copilot Agent Builder · Configure tab · Try it tab</p>
+<p>Prerequisite: Lab 0 completed</p>
+<p>Learner Workbook · Version 4.0</p>` },
+{ id:'wb-02', module:'Orientation', title:'How to Use This Workbook', body:`<p>This workbook guides you through Level 1 of SONG Commerce AI Labs. Follow it in order. Every section tells you exactly what to do — and why it matters.</p>
+<table>
+<colgroup>
+<col style="width: 15%"/>
+<col style="width: 84%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Symbol</strong></th>
+<th><strong>What it means</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>📖 Read</td>
+<td>Background context or concept to understand before doing anything.</td>
+</tr>
+<tr class="even">
+<td>✏️ Do</td>
+<td>An activity you complete individually — in this workbook or in M365 Copilot.</td>
+</tr>
+<tr class="odd">
+<td>👥 Discuss</td>
+<td>A structured conversation with your pair or group.</td>
+</tr>
+<tr class="even">
+<td>🔍 Validate</td>
+<td>A checking step — review your AI output critically before accepting it.</td>
+</tr>
+<tr class="odd">
+<td>⚠️ AI Risk</td>
+<td>A specific hallucination or accuracy risk to watch for at this point.</td>
+</tr>
+<tr class="even">
+<td>📦 Deliverable</td>
+<td>A formal output that will be submitted and used in future labs.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>What you will have built by the end of Level 1</strong></p>
+<p>✅ A Commerce Business Brief — structured requirements document for Kape Ko</p>
+<p>✅ A Validated Customer Journey Map — with system implications per stage</p>
+<p>✅ A Discovery Backlog — open questions to resolve before building anything</p>
+<p>✅ A Responsible AI Annotation — what the AI got wrong and how you caught it</p>
+<p>These are real consulting artifacts. They feed into every lab from Level 2 onwards.</p>
+<p><strong>Before you start: confirm Lab 0 is complete</strong></p>
+<p>Level 1 assumes you can already:</p>
+<p>▸ Navigate to Agents in M365 Copilot (microsoft365.com → Copilot → Agents)</p>
+<p>▸ Create a new agent using "Skip to configure"</p>
+<p>▸ Write Instructions in the Configure tab</p>
+<p>▸ Test using the Try it tab and reset the conversation</p>
+<p>If any of these are unfamiliar, complete Lab 0 before continuing.</p>
+</blockquote>` },
+{ id:'wb-03', module:'Orientation', title:'Where Level 1 Fits', body:`<p>You are building one commerce business across the entire program. Every lab produces an artifact that feeds the next one. Nothing is throwaway work.</p>
+<table>
+<colgroup>
+<col style="width: 12%"/>
+<col style="width: 25%"/>
+<col style="width: 36%"/>
+<col style="width: 25%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Level</strong></th>
+<th><strong>Name</strong></th>
+<th><strong>What You Build</strong></th>
+<th><strong>Agent Builder Skill</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>🟢 Level 1</td>
+<td>Commerce Explorer</td>
+<td>Commerce Brief + Journey Map</td>
+<td>Configure Instructions from scratch</td>
+</tr>
+<tr class="even">
+<td>🟡 Level 2</td>
+<td>Commerce Builder</td>
+<td>Catalog + Content + Storefront</td>
+<td>Design AI prompts for data generation</td>
+</tr>
+<tr class="odd">
+<td>🟠 Level 3</td>
+<td>Commerce AI</td>
+<td>Copilot + RAG + Recommendations</td>
+<td>Build agents with Knowledge sources</td>
+</tr>
+<tr class="even">
+<td>🔴 Level 4</td>
+<td>Commerce Innovation</td>
+<td>Architecture + Agentic Workflows</td>
+<td>Orchestrate multi-agent systems</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>🟢 You are here — Level 1: Commerce Explorer</strong></p>
+<p>Lab 1: Commerce Discovery Agent (150 min)</p>
+<p>Lab 2: Customer Journey Architect (120 min)</p>
+<p>By the end of this level you can:</p>
+<p>▸ Apply the Discovery Triangle to a real commerce scenario</p>
+<p>▸ Design an original agent system prompt from a blank canvas</p>
+<p>▸ Produce a journey map that drives system and technology decisions</p>
+<p>▸ Identify what the agent hallucinated and what needs human validation</p>
+</blockquote>` },
+{ id:'wb-04', module:'Orientation', title:'The Scenario: Kape Ko', body:`<p>Across Level 1, you play two roles simultaneously:</p>
+<blockquote>
+<p><strong>▸</strong> The Commerce Consultant — running the discovery engagement</p>
+<p><strong>▸</strong> The Founder — being interviewed about the business</p>
+<p><strong>About Kape Ko</strong></p>
+<p>Kape Ko is a Filipino coffee brand with one belief:</p>
+<p>every bag should tell you exactly which farm it came from.</p>
+<p>Two founders — a food tech entrepreneur and a Cordilleran coffee farmer —</p>
+<p>want to launch an online subscription store delivering single-origin</p>
+<p>Filipino coffee monthly, with a handwritten farm story card in every box.</p>
+<p>They have a product. They have a story.</p>
+<p>They do not yet have a platform, a commerce strategy, or a clear</p>
+<p>picture of who their customer is.</p>
+<p>That is your job.</p>
+</blockquote>
+<p>Everything you discover about Kape Ko in Level 1 becomes the foundation of Levels 2, 3, and 4. The more rigorously you do this discovery, the stronger everything that follows will be.</p>` },
+{ id:'wb-05', module:'Pre-Lab Reading', title:'Pre-Lab Reading — Overview', body:`` },
+{ id:'wb-06', module:'Pre-Lab Reading', title:'What Is a Discovery Engagement?', body:`<p>A commerce discovery engagement is the first phase of any implementation project. Before a platform is selected, before a feature is built, before a line of code is written — a consultant must answer three questions about the business. This is called the Discovery Triangle.</p>
+<table>
+<colgroup>
+<col style="width: 17%"/>
+<col style="width: 38%"/>
+<col style="width: 44%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Lens</strong></th>
+<th><strong>The Core Question</strong></th>
+<th><strong>What it drives</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Business</td>
+<td>What is the commercial model? Who pays, for what, when, and through which channel?</td>
+<td>Platform selection, pricing engine, billing architecture, B2C vs B2B structure</td>
+</tr>
+<tr class="even">
+<td>Customer</td>
+<td>Who buys? What do they need at each stage? What would make them leave?</td>
+<td>UX design, search, content, personalisation, support experience</td>
+</tr>
+<tr class="odd">
+<td>Technology</td>
+<td>What capabilities are required? What constraints exist? What must integrate?</td>
+<td>Architecture decisions, integration scope, build vs buy, implementation timeline</td>
+</tr>
+</tbody>
+</table>
+<p>Every field in your Commerce Business Brief must address at least one of these lenses. A brief that covers only business — nothing about the customer experience or technology — is incomplete.</p>` },
+{ id:'wb-07', module:'Pre-Lab Reading', title:'Subscription Commerce', body:`<p>Because Kape Ko is a subscription business, you need to understand what that actually requires — not just check a "subscription: yes" box. Six capabilities must be addressed:</p>
+<table>
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 36%"/>
+<col style="width: 40%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Capability</strong></th>
+<th><strong>Business Question to Ask</strong></th>
+<th><strong>If You Skip This…</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Recurring billing</td>
+<td>What cadence? What happens on payment failure?</td>
+<td>Cannot select a billing platform or scope the payment integration</td>
+</tr>
+<tr class="even">
+<td>Dunning management</td>
+<td>How many retries before cancellation? Email or SMS alerts?</td>
+<td>Subscribers silently churn when cards expire — no one catches it</td>
+</tr>
+<tr class="odd">
+<td>Skip / Pause / Cancel</td>
+<td>Can subscribers pause? How many times? What is the cancel flow?</td>
+<td>Cannot design the subscriber portal or the self-service API</td>
+</tr>
+<tr class="even">
+<td>Churn prevention</td>
+<td>What is offered when someone tries to cancel?</td>
+<td>No retention flow = higher churn with no safety net</td>
+</tr>
+<tr class="odd">
+<td>Product swaps</td>
+<td>Can subscribers change their coffee selection each month?</td>
+<td>Cannot model the subscription modification API or the UI flow</td>
+</tr>
+<tr class="even">
+<td>Gift subscriptions</td>
+<td>Can a subscriber give a subscription as a gift?</td>
+<td>Gift commerce is a separate flow — missing it creates scope gaps at launch</td>
+</tr>
+</tbody>
+</table>
+<p>You will fill in this table for Kape Ko during Lab 1. Keep it in mind as you design your discovery agent.</p>` },
+{ id:'wb-08', module:'Pre-Lab Reading', title:'Designing Instructions for a Discovery Agent', body:`<p>In Lab 0 you wrote Instructions for a simple coffee recommender. In Lab 1, you will design Instructions for a far more demanding job: interviewing a founder and producing a structured commerce brief.</p>
+<p>The same three-part formula applies — but the stakes are higher:</p>
+<table>
+<colgroup>
+<col style="width: 15%"/>
+<col style="width: 36%"/>
+<col style="width: 47%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Part</strong></th>
+<th><strong>In Lab 0 (coffee guide)</strong></th>
+<th><strong>In Lab 1 (discovery agent)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ROLE</td>
+<td>Friendly coffee guide for Kape Ko</td>
+<td>Senior commerce consultant running a discovery interview</td>
+</tr>
+<tr class="even">
+<td>RULES</td>
+<td>Recommend one coffee. Stay under 100 words.</td>
+<td>Ask one question at a time. Handle vague answers. Cover all three Discovery Triangle lenses.</td>
+</tr>
+<tr class="odd">
+<td>OUTPUT</td>
+<td>One coffee recommendation + subscription ask</td>
+<td>A structured Commerce Business Brief with confidence tags on every field</td>
+</tr>
+</tbody>
+</table>` },
+{ id:'wb-09', module:'Pre-Lab Reading', title:'The Confidence Tagging System', body:`<p>Every field in your Commerce Business Brief must be tagged with one of these four labels. This is how you separate what is solid from what still needs validation.</p>
+<table>
+<colgroup>
+<col style="width: 17%"/>
+<col style="width: 38%"/>
+<col style="width: 44%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tag</strong></th>
+<th><strong>Meaning</strong></th>
+<th><strong>Rule before using in a future lab</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>✅ CONFIRMED</td>
+<td>The founder stated this explicitly in the interview.</td>
+<td>Safe to use. Record the source.</td>
+</tr>
+<tr class="even">
+<td>🔶 ASSUMED</td>
+<td>The agent inferred this — the founder did not say it.</td>
+<td>Must be validated before it drives any design decision.</td>
+</tr>
+<tr class="odd">
+<td>❓ OPEN</td>
+<td>The agent did not get an answer. Still unknown.</td>
+<td>Add to the Discovery Backlog. Do not design around it.</td>
+</tr>
+<tr class="even">
+<td>⚠️ RISK</td>
+<td>If this is wrong, the solution changes significantly.</td>
+<td>Escalate immediately. Do not proceed without resolution.</td>
+</tr>
+</tbody>
+</table>
+<p>A brief where every field is tagged ✅ CONFIRMED is almost certainly wrong. It means you accepted everything the agent produced without questioning it. A realistic brief has a mix of all four tags.</p>
+<blockquote>
+<p><strong>⚠️ The most common discovery failure</strong></p>
+<p>A team selects a commerce platform before the customer journey is understood.</p>
+<p>They later discover the platform cannot support a critical customer need.</p>
+<p>Rework costs months and erodes client trust.</p>
+<p>Your Commerce Business Brief and Journey Map exist to prevent exactly this.</p>
+</blockquote>` },
+{ id:'wb-10', module:'Lab 1 · Discovery Agent', title:'Lab 1 Overview', body:`<p class="wb-heading"><strong>Commerce Discovery Agent</strong></p>
+<p>From blank canvas to a defensible Commerce Business Brief</p>
+<p>⏱ 150 min M365 Copilot Agent Builder Individual</p>
+<p class="wb-heading"><strong>COMMERCE CONCEPT</strong></p>
+<p class="wb-heading"><strong>What commerce capability does this lab build?</strong></p>
+<p>Discovery &amp; Requirements Elicitation — the ability to extract structured, actionable commerce requirements from a business conversation, and separate what is known from what is assumed.</p>
+<p>In real commerce engagements — on SAP Commerce Cloud, Shopify Plus, Adobe Commerce, or Salesforce Commerce — the discovery phase determines everything that follows. Platform selection, architecture, integration scope, project timeline: all of it flows from what you learn here. A weak brief creates a weak project.</p>
+<p class="wb-heading"><strong>LEARNING OBJECTIVES</strong></p>
+<p class="wb-heading"><strong>By the end of Lab 1, you will be able to:</strong></p>
+<blockquote>
+<p><strong>1.</strong> Apply the Discovery Triangle (Business / Customer / Technology) to a commerce scenario.</p>
+<p><strong>2.</strong> Design an original discovery agent system prompt — not copy one.</p>
+<p><strong>3.</strong> Configure and run your agent in M365 Copilot Agent Builder.</p>
+<p><strong>4.</strong> Run a discovery interview WITHOUT a Knowledge source — and identify what the agent invents.</p>
+<p><strong>5.</strong> Upload a Knowledge file to your agent and run the same interview again.</p>
+<p><strong>6.</strong> Compare grounded vs ungrounded agent output — and explain why the difference matters.</p>
+<p><strong>7.</strong> Tag every field in the final agent output with a confidence level.</p>
+<p><strong>8.</strong> Produce a Commerce Business Brief that a real consultant could hand to a client.</p>
+</blockquote>
+<p><strong>STEP 1 Design your discovery agent — Before touching M365 Copilot</strong> 30 min</p>` },
+{ id:'wb-11', module:'Lab 1 · Discovery Agent', title:'Design Your Instructions From Scratch', body:`<p>Open a blank page — digital or paper. Do not open M365 Copilot yet. Before you write a single line of Instructions, answer the five design questions below. Your answers will become your agent's Instructions.</p>
+<blockquote>
+<p><strong>Your only constraints</strong></p>
+<p>1. Your agent must produce a Commerce Business Brief.</p>
+<p>2. The brief must address all three Discovery Triangle lenses.</p>
+<p>3. Your agent must ask one question at a time.</p>
+<p>4. Your agent must tag every output field with a confidence level.</p>
+<p>5. Everything else — the questions, the order, the tone, the output format — is yours to design.</p>
+</blockquote>
+<p class="wb-heading"><strong>Design Question 1 — What is your agent's role?</strong></p>
+<p>Write one sentence: who is this agent, who does it serve, and what is its job?</p>
+<p class="wb-heading"><strong>Design Question 2 — What does your agent need to find out?</strong></p>
+<p>List every topic it must cover. Group by Discovery Triangle lens. Aim for 8–12 topics across all three.</p>
+<p class="wb-heading"><strong>Business lens:</strong></p>
+<p class="wb-heading"><strong>Customer lens:</strong></p>
+<p class="wb-heading"><strong>Technology lens:</strong></p>
+<p class="wb-heading"><strong>Design Question 3 — How will your agent handle a vague or unclear answer?</strong></p>
+<p>If the founder says "I'm not sure" or answers in one word — what should your agent do next?</p>
+<p class="wb-heading"><strong>Design Question 4 — What output format will your agent produce?</strong></p>
+<p>List every section you want in the final brief. Be specific about what each section must contain.</p>
+<p class="wb-heading"><strong>Design Question 5 — How will your agent signal confidence?</strong></p>
+<p>Write the exact instruction you will give the agent for tagging fields as CONFIRMED, ASSUMED, OPEN, or RISK.</p>
+<p><strong>STEP 2 Build your agent in M365 Copilot Agent Builder</strong> 15 min</p>` },
+{ id:'wb-12', module:'Lab 1 · Discovery Agent', title:'Configure Your Discovery Agent', body:`<p>Now take your answers from Step 1 and build them into a real agent. Follow these steps exactly.</p>
+<p class="wb-heading"><strong>1 Open microsoft365.com and sign in with your work account.</strong></p>
+<p class="wb-heading"><strong>2 Click Copilot in the top nav, then find Agents in the left panel.</strong></p>
+<p class="wb-heading"><strong>3 Click "+ New agent."</strong></p>
+<p class="wb-heading"><strong>4 Click "Skip to configure."</strong></p>
+<blockquote>
+<p>This takes you directly to the Configure tab — you write the Instructions yourself.</p>
+<p><strong>🖥️ What you should see on screen</strong></p>
+<p>The Configure tab is now open. You should see: a Name field at the top, a Description field below it, a large Instructions text area in the middle, a Knowledge section below that, and a Try it tab or panel on the right side of the screen. If you do not see the Try it panel, look for a small arrow or toggle on the right edge of the screen.</p>
+</blockquote>
+<p class="wb-heading"><strong>5 In the Name field, type:</strong></p>
+<blockquote>
+<p>Kape Ko Discovery Agent</p>
+</blockquote>
+<p class="wb-heading"><strong>6 In the Description field, type:</strong></p>
+<blockquote>
+<p>A commerce discovery agent that interviews a founder and produces a structured Commerce Business Brief for Kape Ko.</p>
+</blockquote>
+<p class="wb-heading"><strong>7 Click inside the Instructions field.</strong></p>
+<blockquote>
+<p>This is where your system prompt goes. Use your answers from Step 1 to write it now.</p>
+<p><strong>What to write in the Instructions field</strong></p>
+<p>Structure your Instructions using the three-part formula from Lab 0:</p>
+<p>## Role</p>
+<p>Write your answer to Design Question 1.</p>
+<p>## How to conduct the interview</p>
+<p>Write your interview rules from Design Question 2.</p>
+<p>Include: ask one question at a time, how to handle vague answers (Design Question 3).</p>
+<p>## Output format</p>
+<p>Write your output structure from Design Question 4.</p>
+<p>Include: the confidence tagging instruction from Design Question 5.</p>
+<p>Do not copy a prompt from another source.</p>
+<p>The quality of your Instructions reflects the quality of your thinking.</p>
+</blockquote>
+<p class="wb-heading"><strong>8 Save your Instructions.</strong></p>
+<blockquote>
+<p>Ctrl+S (Windows) / Cmd+S (Mac) — or the Save button at the top.</p>
+<p><strong>🖥️ What you should see on screen</strong></p>
+<p>The Instructions field should now contain your full prompt — all four sections (Role, How to conduct the interview, Confidence tagging rules, Output format). The Save button at the top should no longer show unsaved changes. The Try it tab on the right should be empty and ready for a fresh conversation.</p>
+<p><strong>⚠️ Critical: always reset Try it after saving</strong></p>
+<p>After saving Instructions, switch to the Try it tab.</p>
+<p>Click the refresh/reset icon at the top of the chat.</p>
+<p>Start a fresh conversation — otherwise the agent uses the old Instructions.</p>
+</blockquote>
+<p><strong>STEP 3 Run the interview WITHOUT a Knowledge source — first</strong> 20 min</p>` },
+{ id:'wb-13', module:'Lab 1 · Discovery Agent', title:'Interview Kape Ko — No Knowledge Attached', body:`<p>Your agent currently has only the Instructions you wrote. It has no Knowledge file connected. This is intentional — you are going to run the interview now, without any KB, and observe what your agent produces.</p>
+<p>This step has one purpose: to see what the agent invents when it does not have real data to work from. You will compare this output to a second run in Step 5 — after you connect the Kape Ko Knowledge Base.</p>
+<blockquote>
+<p><strong>⚠️ Do NOT connect Knowledge yet</strong></p>
+<p>You will upload the Knowledge file in Step 4.</p>
+<p>Run this interview with Instructions only — no Knowledge tab connected.</p>
+<p>If you already connected Knowledge, go to the Configure tab → Knowledge section</p>
+<p>and remove it before proceeding.</p>
+</blockquote>
+<p>Switch to the Try it tab. You will play the role of the Kape Ko founder. Use only the information below.</p>
+<blockquote>
+<p><strong>Kape Ko Founder Brief — what you know when you walk into this meeting</strong></p>
+<p>You are one of the two founders of Kape Ko.</p>
+<p>What you know for certain:</p>
+<p>▸ You sell single-origin Filipino coffee — beans from Benguet, Sagada, and Mt. Apo</p>
+<p>▸ You want monthly subscriptions — but you are open to one-time purchases too</p>
+<p>▸ Your farm story card is your biggest differentiator</p>
+<p>▸ You plan to sell online — website for sure, possibly Instagram Shop</p>
+<p>What you are NOT sure about:</p>
+<p>▸ Whether to do B2B (corporate gifting) from day one or focus on B2C first</p>
+<p>▸ Your exact price point — somewhere between ₱400 and ₱900 per 250g bag</p>
+<p>▸ How you will handle subscribers who want to pause or cancel</p>
+<p>▸ Whether you will ship nationwide on day one or Metro Manila only</p>
+<p>What you do not know at all:</p>
+<p>▸ Which platform to use</p>
+<p>▸ How many subscribers you can realistically get in year one</p>
+<p>▸ What your top competitors are doing</p>
+<p>Stay in character. If your agent asks something you do not know — say so.</p>
+</blockquote>
+<p>After the full interview, paste or copy your agent's output into the table below. Focus especially on any fields where the agent seems very specific — prices, policies, delivery times. Note these — they are likely invented.</p>
+<p class="wb-heading"><strong>Run 1 Output — No Knowledge (paste key fields here):</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 38%"/>
+<col style="width: 35%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field the agent produced</strong></th>
+<th><strong>What it said</strong></th>
+<th><strong>Invented or confirmed?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Price per bag</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Subscription cadence</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Shipping coverage</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Cancellation policy</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Corporate gifting</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Other — ___________</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Other — ___________</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>After reviewing Run 1, answer these:</strong></p>
+<p class="wb-heading"><strong>What specific numbers or policies did the agent produce that you never told it?</strong></p>
+<p class="wb-heading"><strong>How confident are you that these are accurate?</strong></p>
+<p><strong>STEP 4 Upload the Kape Ko Knowledge Base to your agent</strong> 15 min</p>` },
+{ id:'wb-14', module:'Lab 1 · Discovery Agent', title:'Connect Real Data to Your Agent', body:`<p>You are now going to give your agent a source of truth — the Kape Ko Knowledge Base. This is a document containing the real product catalog, real pricing, real subscription policies, real farm data, and real FAQs for Kape Ko.</p>
+<p>When your agent has access to this file, it can answer questions from the actual data — instead of generating plausible-sounding but invented answers.</p>
+<blockquote>
+<p><strong>This is Mini-RAG</strong></p>
+<p>What you are doing right now is a simplified version of Retrieval-Augmented Generation (RAG).</p>
+<p>RAG = giving an AI agent a knowledge source it can search and reference</p>
+<p>when answering questions, instead of relying on its training data.</p>
+<p>In Lab 7, you will build a full Commerce RAG system with a vector database.</p>
+<p>Right now, you are experiencing the same core concept — grounded vs ungrounded output —</p>
+<p>in the simplest possible way: upload a file, run the same question, compare the answer.</p>
+<p>This is why it matters: in real commerce AI, an ungrounded product agent is dangerous.</p>
+<p>It will confidently quote wrong prices, invent policies, and mislead customers.</p>
+</blockquote>
+<p class="wb-heading"><strong>Download the Knowledge Base file</strong></p>
+<p>The Kape Ko Knowledge Base file has been provided to you alongside this workbook:</p>
+<blockquote>
+<p><strong>File to download and upload</strong></p>
+<p>Filename: KapeKo_KnowledgeBase_v1.docx</p>
+<p>This file contains:</p>
+<p>▸ Brand story and founding history</p>
+<p>▸ Full product catalog — 6 SKUs with exact pricing, farm origins, flavour notes</p>
+<p>▸ Subscription model details — cadence, skip/pause/cancel/gift policies</p>
+<p>▸ Dunning policy with exact day-by-day timeline</p>
+<p>▸ Shipping coverage and fees by region</p>
+<p>▸ Farm origin profiles — Benguet, Sagada, Mt. Apo</p>
+<p>▸ 20+ FAQs</p>
+<p>▸ Brand voice guidelines</p>
+</blockquote>
+<p class="wb-heading"><strong>Upload the file to your agent's Knowledge tab</strong></p>
+<p class="wb-heading"><strong>1 In M365 Copilot Agent Builder, open your Kape Ko Discovery Agent.</strong></p>
+<blockquote>
+<p>Go to microsoft365.com → Copilot → Agents → find "Kape Ko Discovery Agent" → click Edit.</p>
+</blockquote>
+<p class="wb-heading"><strong>2 Click the Configure tab.</strong></p>
+<p class="wb-heading"><strong>3 Scroll down to the Knowledge section.</strong></p>
+<blockquote>
+<p>It is below the Instructions field. You should see a "+ Add knowledge" button.</p>
+</blockquote>
+<p class="wb-heading"><strong>4 Click "+ Add knowledge."</strong></p>
+<blockquote>
+<p>A panel or menu appears with options for how to add knowledge.</p>
+</blockquote>
+<p class="wb-heading"><strong>5 Select "Upload files" or "Files."</strong></p>
+<blockquote>
+<p>The exact label may vary — look for an option that lets you upload a document from your computer.</p>
+</blockquote>
+<p class="wb-heading"><strong>6 Upload KapeKo_KnowledgeBase_v1.docx from your computer.</strong></p>
+<blockquote>
+<p>Wait for the upload to complete. You should see the file name appear in the Knowledge section.</p>
+</blockquote>
+<p class="wb-heading"><strong>7 Save your agent.</strong></p>
+<blockquote>
+<p>Ctrl+S or the Save button at the top.</p>
+<p><strong>⚠️ What you should see after uploading</strong></p>
+<p>In the Knowledge section of the Configure tab:</p>
+<p>▸ The filename "KapeKo_KnowledgeBase_v1.docx" should appear</p>
+<p>▸ There may be a processing indicator while M365 indexes the file</p>
+<p>▸ Wait until processing is complete before testing — usually 1–2 minutes</p>
+<p>If the file does not appear or upload fails:</p>
+<p>▸ Check the file size — files over 5MB may not upload. This file is well within limit.</p>
+<p>▸ Try a different browser (Edge works best with M365 Agent Builder)</p>
+<p>▸ Ask your programme coordinator if Knowledge upload is enabled in your tenant</p>
+</blockquote>
+<p class="wb-heading"><strong>✅ Check: Knowledge is connected</strong></p>
+<p class="wb-heading"><strong>Write the filename as it appears in the Knowledge section after upload:</strong></p>
+<p><strong>STEP 5 Run the same interview WITH Knowledge — compare</strong> 20 min</p>` },
+{ id:'wb-15', module:'Lab 1 · Discovery Agent', title:'Interview Kape Ko Again — With the Knowledge Base', body:`<p>Now run the exact same discovery interview you ran in Step 3. Use the same Founder Brief. Play the same role. Your agent now has access to the Kape Ko Knowledge Base — so its answers to questions about pricing, policies, products, and shipping should be grounded in real data.</p>
+<blockquote>
+<p><strong>⚠️ Before starting Run 2</strong></p>
+<p>1. Make sure the Knowledge file is uploaded and processing is complete (Step 4).</p>
+<p>2. Switch to the Try it tab.</p>
+<p>3. Click the reset / refresh icon to start a fresh conversation.</p>
+<p>4. Use exactly the same Founder Brief from Step 3 — same answers to the same questions.</p>
+</blockquote>
+<p>After the full interview, record the same fields from Run 2 and compare them to Run 1:</p>
+<p class="wb-heading"><strong>Run 2 Output — With Knowledge (record the same fields):</strong></p>
+<table>
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 27%"/>
+<col style="width: 27%"/>
+<col style="width: 26%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Run 1 said (no KB)</strong></th>
+<th><strong>Run 2 says (with KB)</strong></th>
+<th><strong>Changed?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Price per bag</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+<tr class="even">
+<td>Subscription cadence</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+<tr class="odd">
+<td>Shipping coverage</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+<tr class="even">
+<td>Cancellation policy</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+<tr class="odd">
+<td>Corporate gifting</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+<tr class="even">
+<td>Other — ___________</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+<tr class="odd">
+<td>Other — ___________</td>
+<td></td>
+<td></td>
+<td>Yes / No</td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>After comparing Run 1 and Run 2, answer these:</strong></p>
+<p class="wb-heading"><strong>Which fields changed the most between Run 1 and Run 2?</strong></p>
+<p class="wb-heading"><strong>In Run 1, what did the agent invent that Run 2 corrected with real data?</strong></p>
+<p>Give at least two specific examples. Name the exact wrong value from Run 1 and the correct value from Run 2.</p>
+<p class="wb-heading"><strong>Why does this difference matter in a real commerce engagement?</strong></p>
+<p>Think about what would happen if a customer-facing agent gave Run 1 answers instead of Run 2 answers.</p>
+<blockquote>
+<p><strong>🧠 The lesson: what you just experienced is RAG</strong></p>
+<p>Run 1 = your agent using only its training data to fill gaps → hallucination</p>
+<p>Run 2 = your agent retrieving and referencing real data → grounded answers</p>
+<p>The gap between Run 1 and Run 2 is exactly why grounding matters.</p>
+<p>In a real Kape Ko store:</p>
+<p>▸ Run 1 answers would mislead customers about pricing and policies</p>
+<p>▸ Run 2 answers would be accurate, auditable, and trustworthy</p>
+<p>In Lab 7 (Commerce RAG), you will build this grounding system properly —</p>
+<p>with a vector database that lets your agent search across thousands of products.</p>
+<p>Today you experienced the concept. Lab 7 is where you build the architecture.</p>
+</blockquote>
+<p><strong>STEP 6 Validate your final output — tag every field</strong> 20 min</p>` },
+{ id:'wb-16', module:'Lab 1 · Discovery Agent', title:'Tag Every Field in Your Brief', body:`<p>Read through your agent's output carefully. For every piece of information it produced, decide: did the founder actually say this, did the agent infer it, or is it still unknown?</p>
+<p>Go through your brief and write one confidence tag next to every field:</p>
+<blockquote>
+<p><strong>▸</strong> ✅ CONFIRMED — founder stated this explicitly</p>
+<p><strong>▸</strong> 🔶 ASSUMED — agent inferred this; founder did not say it</p>
+<p><strong>▸</strong> ❓ OPEN — agent did not get an answer; still unknown</p>
+<p><strong>▸</strong> ⚠️ RISK — if this is wrong, the solution changes significantly</p>
+</blockquote>
+<p class="wb-heading"><strong>Record your tagging results:</strong></p>
+<table>
+<colgroup>
+<col style="width: 29%"/>
+<col style="width: 12%"/>
+<col style="width: 57%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field from the Brief</strong></th>
+<th><strong>Tag</strong></th>
+<th><strong>Your reasoning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Store name</td>
+<td>✅ CONFIRMED</td>
+<td>Founder stated "Kape Ko" directly</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Count your tags:</p>
+<table>
+<colgroup>
+<col style="width: 21%"/>
+<col style="width: 15%"/>
+<col style="width: 63%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Tag</strong></th>
+<th><strong>Count</strong></th>
+<th><strong>What this tells you</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>✅ CONFIRMED</td>
+<td>___</td>
+<td>Solid foundation. Record the source.</td>
+</tr>
+<tr class="even">
+<td>🔶 ASSUMED</td>
+<td>___</td>
+<td>Must be validated before any design decision.</td>
+</tr>
+<tr class="odd">
+<td>❓ OPEN</td>
+<td>___</td>
+<td>Goes into your Discovery Backlog.</td>
+</tr>
+<tr class="even">
+<td>⚠️ RISK</td>
+<td>___</td>
+<td>Needs immediate escalation — do not design around this.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>⚠️ AI Risk: Check your CONFIRMED tags carefully</strong></p>
+<p>Look at every field you tagged CONFIRMED.</p>
+<p>Are you certain the founder said each of those things explicitly?</p>
+<p>Or did your agent present an inference as a confirmed fact?</p>
+<p>Common pattern: agent receives "we want subscriptions" and outputs</p>
+<p>"Subscription cadence: monthly — CONFIRMED." But the founder never said monthly.</p>
+<p>Monthly was the agent's assumption. It should be tagged 🔶 ASSUMED.</p>
+<p>This is subtle hallucination. It looks like a clean output. Catching it is the skill.</p>
+</blockquote>
+<p><strong>STEP 7 Stress-test your agent</strong> 15 min</p>` },
+{ id:'wb-17', module:'Lab 1 · Discovery Agent', title:'Break It On Purpose', body:`<p>Pick one of the three scenarios below — choose the one that interests you most, or the one that feels most relevant to your agent's likely weakness. Go to the Try it tab, reset the conversation, and run the scenario exactly as written.</p>
+<blockquote>
+<p><strong>Scenario A — The Vague Founder</strong></p>
+<p>Opening message: "We want to sell coffee online. We want it to be like Netflix but for coffee."</p>
+<p>For every follow-up question from your agent: give a vague, one-word, or contradictory answer.</p>
+<p>Watch for: what does your agent invent when the input is nearly empty?</p>
+<p><strong>Scenario B — The Overconfident Founder</strong></p>
+<p>Opening message: "We sell premium Filipino single-origin coffee. Monthly subscription, ₱800/month.</p>
+<p>Target: 28–40 year old urban professionals. Ship nationwide. GCash. Launch in 60 days."</p>
+<p>Answer every follow-up question confidently — even make things up.</p>
+<p>Watch for: what did your agent fail to ask? What gaps remain despite the confident answers?</p>
+<p><strong>Scenario C — The Conflicted Founder</strong></p>
+<p>Opening message: "We want subscriptions but also one-time purchases. Premium but accessible.</p>
+<p>B2C but also corporate gifting. Launch in 60 days but no platform yet."</p>
+<p>Maintain contradictions throughout. Do not resolve them even if the agent asks.</p>
+<p>Watch for: does your agent surface the contradictions, or does it bury them in a clean-looking brief?</p>
+</blockquote>
+<p class="wb-heading"><strong>After the stress test, answer these questions:</strong></p>
+<p class="wb-heading"><strong>What did your agent invent that you did not tell it?</strong></p>
+<p class="wb-heading"><strong>What important question did your agent fail to ask?</strong></p>
+<p class="wb-heading"><strong>Which line in your Instructions caused the failure? What would you change?</strong></p>
+<p><strong>STEP 8 Iterate and improve</strong> 15 min</p>` },
+{ id:'wb-18', module:'Lab 1 · Discovery Agent', title:'Fix One Thing in Your Instructions', body:`<p>Based on what you observed in Step 5, return to the Configure tab and make one targeted improvement. Do not rewrite the whole prompt — fix the one thing that broke.</p>
+<p class="wb-heading"><strong>1 Click back to the Configure tab.</strong></p>
+<p class="wb-heading"><strong>2 Find the section that caused the failure. Edit it.</strong></p>
+<p class="wb-heading"><strong>3 Save. Then switch to Try it and reset the conversation.</strong></p>
+<p class="wb-heading"><strong>4 Re-run the Kape Ko interview from Step 5 (with KB).</strong></p>
+<blockquote>
+<p>Compare the new output to the Run 2 output.</p>
+</blockquote>
+<p class="wb-heading"><strong>What did you change? Write old → new.</strong></p>
+<p class="wb-heading"><strong>Old version:</strong></p>
+<p class="wb-heading"><strong>New version:</strong></p>
+<p class="wb-heading"><strong>What improved between run 1 and run 2?</strong></p>
+<p class="wb-heading"><strong>What still needs work?</strong></p>` },
+{ id:'wb-19', module:'Lab 1 · Discovery Agent', title:'Lab 1 Deliverable', body:`<p class="wb-heading"><strong>Commerce Business Brief v1.0</strong></p>
+<p>Your Lab 1 deliverable is a Commerce Business Brief with six components. Complete each before moving to Lab 2.</p>
+<p class="wb-heading"><strong>Component 1 — Discovery Triangle Summary</strong></p>
+<p>One paragraph per lens summarising what you know about Kape Ko.</p>
+<p class="wb-heading"><strong>Business:</strong></p>
+<p class="wb-heading"><strong>Customer:</strong></p>
+<p class="wb-heading"><strong>Technology:</strong></p>
+<p class="wb-heading"><strong>Component 2 — Kape Ko Commerce Brief</strong></p>
+<p>Use your validated, tagged agent output. Be honest with your tags.</p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 51%"/>
+<col style="width: 23%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your Answer</strong></th>
+<th><strong>Tag</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Store name</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>One-line pitch</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Primary products (top 3–5)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Primary buyer persona</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Sales channels</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Subscription model</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Subscription cadence</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Business model (B2C/B2B/Both)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Price range</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Key differentiators (3)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Geographic reach at launch</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Payment methods</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>12-month success metric</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Component 3 — Subscription Commerce Requirements</strong></p>
+<table>
+<colgroup>
+<col style="width: 23%"/>
+<col style="width: 19%"/>
+<col style="width: 57%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Capability</strong></th>
+<th><strong>Does Kape Ko need this?</strong></th>
+<th><strong>Specific requirements</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Recurring billing</td>
+<td>Yes / No / Unknown</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Dunning management</td>
+<td>Yes / No / Unknown</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Skip / Pause / Cancel</td>
+<td>Yes / No / Unknown</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Churn prevention offer</td>
+<td>Yes / No / Unknown</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Product swap per cycle</td>
+<td>Yes / No / Unknown</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Gift subscriptions</td>
+<td>Yes / No / Unknown</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Component 4 — Discovery Backlog</strong></p>
+<p>At least five open questions that must be resolved before any architecture or platform decision.</p>
+<table>
+<colgroup>
+<col style="width: 5%"/>
+<col style="width: 34%"/>
+<col style="width: 43%"/>
+<col style="width: 17%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>#</strong></th>
+<th><strong>Open Question</strong></th>
+<th><strong>Why this matters if unanswered</strong></th>
+<th><strong>Priority</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td></td>
+<td></td>
+<td>P1 / P2 / P3</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td></td>
+<td></td>
+<td>P1 / P2 / P3</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td></td>
+<td></td>
+<td>P1 / P2 / P3</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td></td>
+<td></td>
+<td>P1 / P2 / P3</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td></td>
+<td></td>
+<td>P1 / P2 / P3</td>
+</tr>
+<tr class="even">
+<td>6 (optional)</td>
+<td></td>
+<td></td>
+<td>P1 / P2 / P3</td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Component 5 — Responsible AI Annotation</strong></p>
+<p>Three specific things your agent may have hallucinated or assumed incorrectly — from Run 1 (no KB).</p>
+<table>
+<colgroup>
+<col style="width: 32%"/>
+<col style="width: 29%"/>
+<col style="width: 38%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>What the agent produced in Run 1</strong></th>
+<th><strong>Why this was wrong</strong></th>
+<th><strong>What Run 2 (with KB) corrected it to</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Component 6 — KB Comparison Summary</strong></p>
+<p>Summarise what you learned from comparing Run 1 (no Knowledge) and Run 2 (with Knowledge).</p>
+<table>
+<colgroup>
+<col style="width: 34%"/>
+<col style="width: 65%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Question</strong></th>
+<th><strong>Your answer</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>How many fields changed between Run 1 and Run 2?</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>What was the most significant hallucination Run 1 produced?</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>What made Run 2 more trustworthy than Run 1?</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>In a real Kape Ko store, what would go wrong if Run 1 answers reached customers?</td>
+<td></td>
+</tr>
+</tbody>
+</table>` },
+{ id:'wb-20', module:'Lab 1 · Discovery Agent', title:'Lab 1 Assessment Rubric', body:`<p class="wb-heading"><strong>How Your Lab 1 Work Will Be Assessed</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 26%"/>
+<col style="width: 23%"/>
+<col style="width: 24%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Criteria</strong></th>
+<th><strong>Excellent</strong></th>
+<th><strong>Adequate</strong></th>
+<th><strong>Needs Work</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Instructions Design (original, covers all 3 lenses)</td>
+<td>Entirely original. Covers Business, Customer, Technology. Handles vague answers explicitly.</td>
+<td>Mostly original. Covers 2 of 3 lenses. Some vague-answer handling.</td>
+<td>Copied or heavily borrowed. One lens only. No guidance on unclear input.</td>
+</tr>
+<tr class="even">
+<td>Brief Quality (completeness + honest tagging)</td>
+<td>All 13 fields complete. Realistic mix of all four tags. At least one ⚠️ RISK.</td>
+<td>Most fields complete. Some tagging. Mix is plausible.</td>
+<td>All fields ✅ CONFIRMED — no critical review. Or significant fields blank.</td>
+</tr>
+<tr class="odd">
+<td>Subscription Requirements (depth beyond "yes/monthly")</td>
+<td>All 6 capabilities assessed. At least 4 have specific requirements written.</td>
+<td>4–5 capabilities assessed. Requirements somewhat specific.</td>
+<td>"Subscription: monthly" only. No capability-level analysis.</td>
+</tr>
+<tr class="even">
+<td>Discovery Backlog (honest, P1 items identified)</td>
+<td>5+ open questions. Each explains why it matters. At least 2 are P1.</td>
+<td>3–4 questions. Priorities assigned.</td>
+<td>Fewer than 3. Or questions are vague ("need more info").</td>
+</tr>
+<tr class="odd">
+<td>KB Comparison (Run 1 vs Run 2)</td>
+<td>3 specific Run 1 hallucinations named with exact wrong values. Run 2 corrections cited from KB. Real commerce consequence explained.</td>
+<td>2 hallucinations named. Corrections noted. Consequence mentioned but vague.</td>
+<td>"It changed" with no specifics. Or comparison not completed.</td>
+</tr>
+<tr class="even">
+<td>Responsible AI (Run 1 hallucinations → corrected by KB)</td>
+<td>Component 5 table filled with exact field, exact wrong value, exact KB correction per row.</td>
+<td>2 rows complete with some specificity.</td>
+<td>Generic ("AI can be wrong") or component skipped entirely.</td>
+</tr>
+</tbody>
+</table>` },
+{ id:'wb-21', module:'Lab 2 · Journey Architect', title:'Lab 2 Overview', body:`<p class="wb-heading"><strong>Customer Journey Architect</strong></p>
+<p>From touchpoints to systems — a journey map that drives decisions</p>
+<p>⏱ 120 min M365 Copilot Agent Builder Individual</p>
+<p class="wb-heading"><strong>COMMERCE CONCEPT</strong></p>
+<p class="wb-heading"><strong>What commerce capability does this lab build?</strong></p>
+<p>Customer Journey Mapping as Architecture — the ability to map a customer experience across all commerce touchpoints and connect each stage to the system, capability, and data that must support it.</p>
+<p>A journey map is not a feelings diagram. In commerce consulting, it is an architecture tool. Every stage is powered by one or more systems. Understanding the journey means understanding what the technology stack must deliver — and where the gaps are.</p>
+<p class="wb-heading"><strong>LEARNING OBJECTIVES</strong></p>
+<p class="wb-heading"><strong>By the end of Lab 2, you will be able to:</strong></p>
+<blockquote>
+<p><strong>1.</strong> Build a second agent in M365 Copilot Agent Builder — using your Brief from Lab 1 as input.</p>
+<p><strong>2.</strong> Produce a journey map where every stage includes the commerce system responsible for it.</p>
+<p><strong>3.</strong> Identify capability gaps: which stages Kape Ko cannot support at launch.</p>
+<p><strong>4.</strong> Map the journey to a real commerce platform and defend the recommendation.</p>
+<p><strong>5.</strong> Surface the implied business rules hidden inside the journey.</p>
+<p><strong>6.</strong> Give structured peer critique of another participant's journey map.</p>
+</blockquote>` },
+{ id:'wb-22', module:'Lab 2 · Journey Architect', title:'Commerce System Map', body:`<p class="wb-heading"><strong>What System Runs Each Stage?</strong></p>
+<p>Use this reference when reviewing your agent's output. Every stage your agent maps must name a real system.</p>
+<table>
+<colgroup>
+<col style="width: 19%"/>
+<col style="width: 27%"/>
+<col style="width: 52%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Journey Stage</strong></th>
+<th><strong>Commerce System</strong></th>
+<th><strong>Capability it must provide</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Awareness</td>
+<td>Marketing automation / CDP</td>
+<td>Audience segmentation, ad targeting, attribution tracking</td>
+</tr>
+<tr class="even">
+<td>Browse</td>
+<td>Search engine + PIM</td>
+<td>Faceted navigation, product attributes, category taxonomy, sorting</td>
+</tr>
+<tr class="odd">
+<td>Search</td>
+<td>Search (Algolia / Elasticsearch / Solr)</td>
+<td>Semantic search, synonyms, zero-results handling, search analytics</td>
+</tr>
+<tr class="even">
+<td>Product Detail</td>
+<td>PIM + CMS + Subscription engine</td>
+<td>Rich content, variant selection, subscription toggle, pricing rules</td>
+</tr>
+<tr class="odd">
+<td>Cart</td>
+<td>Cart engine + Pricing engine</td>
+<td>Subscription vs one-time pricing, discount logic, upsell triggers</td>
+</tr>
+<tr class="even">
+<td>Checkout</td>
+<td>Checkout + Payment + OMS</td>
+<td>PSP integration (GCash), address validation, delivery scheduling</td>
+</tr>
+<tr class="odd">
+<td>Post-Order</td>
+<td>OMS + CRM + CMS</td>
+<td>Order confirmation, tracking, transactional email, content delivery</td>
+</tr>
+<tr class="even">
+<td>Support</td>
+<td>CRM + Subscriber self-service portal</td>
+<td>Pause / skip / cancel flow, subscription management API</td>
+</tr>
+<tr class="odd">
+<td>Retention</td>
+<td>Marketing automation + Loyalty + Personalisation</td>
+<td>Behavioural triggers, next-cycle preview, loyalty points</td>
+</tr>
+</tbody>
+</table>
+<p><strong>STEP 1 Design your journey agent Instructions</strong> 25 min</p>` },
+{ id:'wb-23', module:'Lab 2 · Journey Architect', title:'Build the Journey Designer Agent', body:`<p>Create a second agent in M365 Copilot Agent Builder. This agent takes your Commerce Business Brief from Lab 1 as input and produces a full customer journey map.</p>
+<p class="wb-heading"><strong>1 Go to Agents in M365 Copilot → + New agent → Skip to configure.</strong></p>
+<p class="wb-heading"><strong>2 Name it:</strong></p>
+<blockquote>
+<p>Kape Ko Journey Designer</p>
+</blockquote>
+<p class="wb-heading"><strong>3 Write your Instructions for this agent.</strong></p>
+<blockquote>
+<p>Your prompt must instruct the agent to produce all seven fields below for all nine journey stages.</p>
+</blockquote>
+<p>Your agent must output all seven fields for every stage. Design your Instructions to require this structure:</p>
+<table>
+<colgroup>
+<col style="width: 21%"/>
+<col style="width: 36%"/>
+<col style="width: 42%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>What it should contain</strong></th>
+<th><strong>Why this field exists</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td>What the customer physically does at this stage</td>
+<td>Grounds the stage in observable behaviour</td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td>What the customer is thinking — specific to Kape Ko</td>
+<td>Surfaces content and messaging needs</td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td>Specific emotion + rating: 😊 Positive / 😐 Neutral / 😟 Frustrated</td>
+<td>Identifies experience quality and friction</td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td>Which system is responsible for this stage</td>
+<td>Connects the journey to architecture requirements</td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td>What the system must be able to do</td>
+<td>Drives feature and integration scoping</td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td>Where AI could improve this stage — name the type</td>
+<td>Seeds Labs 6–8 — maps to a future lab</td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td>What could cause the customer to abandon here</td>
+<td>Drives prioritisation of design effort</td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Write your Instructions for the Journey Designer agent here before building:</strong></p>
+<p>Use the same three-part formula: Role / Rules / Output.</p>
+<p class="wb-heading"><strong>Role:</strong></p>
+<p class="wb-heading"><strong>Rules (how it should conduct the analysis):</strong></p>
+<p class="wb-heading"><strong>Output format (all 7 fields, all 9 stages):</strong></p>
+<p class="wb-heading"><strong>4 Paste your Instructions into the Configure tab. Save.</strong></p>
+<p class="wb-heading"><strong>5 Switch to Try it. Reset the conversation.</strong></p>
+<p class="wb-heading"><strong>6 Paste your entire Lab 1 Commerce Business Brief as your first message.</strong></p>
+<blockquote>
+<p>Your agent should read the brief and personalise the journey for Kape Ko.</p>
+<p><strong>🖥️ What you should see on screen</strong></p>
+<p>In the Try it tab, your Commerce Business Brief from Lab 1 should appear as the first message. The agent should then respond with a question or begin generating the journey map — depending on how you wrote your Instructions. If the agent responds with a generic Copilot reply and ignores the brief, check that your Instructions clearly tell the agent to read the input as a Commerce Business Brief.</p>
+</blockquote>
+<p><strong>STEP 2 Generate and record all 9 stages</strong> 20 min</p>` },
+{ id:'wb-24', module:'Lab 2 · Journey Architect', title:'Record Your Journey Map', body:`<p>Read the agent's full output. Transcribe or paste it into the table below — one table per stage. If a field is missing from your agent's output, write "NOT PRODUCED" and note it.</p>
+<p class="wb-heading"><strong>Stage 1: Awareness</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 2: Browse</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 3: Search</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 4: Product Detail</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 5: Cart</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 6: Checkout</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 7: Post-Order</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 8: Support</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>Stage 9: Retention</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 74%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Field</strong></th>
+<th><strong>Your agent's output</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Customer action</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Customer thought</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Customer emotion</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Commerce system</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Capability required</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>AI opportunity</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Drop-off risk</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>STEP 3 Capability gap analysis</strong> 20 min</p>` },
+{ id:'wb-25', module:'Lab 2 · Journey Architect', title:'Gap Analysis', body:`<p>For each stage, assess whether Kape Ko has the required capability at launch. Be honest — a startup launching its first subscription store does not have a CDP, a personalisation engine, or real-time inventory visibility.</p>
+<table>
+<colgroup>
+<col style="width: 15%"/>
+<col style="width: 23%"/>
+<col style="width: 16%"/>
+<col style="width: 12%"/>
+<col style="width: 31%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Stage</strong></th>
+<th><strong>Commerce system</strong></th>
+<th><strong>Has it? ✅ ❓ ❌</strong></th>
+<th><strong>Priority P1/P2/P3</strong></th>
+<th><strong>AI opportunity type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Awareness</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Browse</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Search</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Product Detail</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Cart</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Checkout</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Post-Order</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Support</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Retention</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>After completing the table, answer:</p>
+<p class="wb-heading"><strong>Which P1 gaps, if unaddressed, would prevent the store from launching?</strong></p>
+<p class="wb-heading"><strong>Which AI opportunities are NOT realistic at Kape Ko's launch scale — and why?</strong></p>
+<blockquote>
+<p><strong>⚠️ AI Risk: Check these before moving on</strong></p>
+<p>▸ Invented touchpoints — does the map include loyalty points or personalisation at launch?</p>
+<p>Kape Ko has no purchase history data on day one.</p>
+<p>▸ Generic emotions — "happy" and "satisfied" are not useful.</p>
+<p>"Confused about the difference between Benguet and Sagada" is a Kape Ko emotion.</p>
+<p>▸ Unrealistic AI at launch — "real-time personalisation at browse" requires a CDP.</p>
+<p>Mark it as a future capability, not a day-one feature.</p>
+<p>▸ Missing compliance touchpoints — FDA registration for food products, provincial</p>
+<p>shipping restrictions, and payment regulations in the Philippines. AI rarely surfaces these.</p>
+</blockquote>
+<p><strong>STEP 4 Platform mapping — solo activity</strong> 15 min</p>` },
+{ id:'wb-26', module:'Lab 2 · Journey Architect', title:'Map the Journey to a Commerce Platform', body:`<p>Pick one platform from the table below. Choose the one you are most curious about, or the one you think is most likely to be recommended for Kape Ko. You will assess how well it handles the Kape Ko journey, then write a recommendation at the end.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 39%"/>
+<col style="width: 35%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Platform</strong></th>
+<th><strong>Key Strength for Kape Ko</strong></th>
+<th><strong>Key Limitation for Kape Ko</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Shopify Plus</td>
+<td>Fastest to launch. Native subscription app ecosystem (Recharge, Bold).</td>
+<td>Subscription billing via apps — adds cost and complexity vs native.</td>
+</tr>
+<tr class="even">
+<td>SAP Commerce Cloud</td>
+<td>Enterprise-grade B2B/B2C, strong OMS, configurable pricing engine.</td>
+<td>High implementation cost and long time-to-market. Overkill at launch.</td>
+</tr>
+<tr class="odd">
+<td>Adobe Commerce</td>
+<td>Highly customisable PIM and content management.</td>
+<td>Developer-heavy. Subscription support via extensions only.</td>
+</tr>
+<tr class="even">
+<td>Salesforce Commerce Cloud</td>
+<td>Strong personalisation engine and AI built in.</td>
+<td>High cost. Subscription commerce needs a third-party integration.</td>
+</tr>
+</tbody>
+</table>
+<p class="wb-heading"><strong>The platform you chose: _______________</strong></p>
+<p>Why did you choose this one?</p>
+<p class="wb-heading"><strong>Which journey stages does this platform support natively?</strong></p>
+<p class="wb-heading"><strong>Which stages require customisation or a third-party integration?</strong></p>
+<p class="wb-heading"><strong>Platform recommendation for Kape Ko at launch (one paragraph — defend it):</strong></p>
+<p><strong>STEP 5 Surface business rules</strong> 10 min</p>` },
+{ id:'wb-27', module:'Lab 2 · Journey Architect', title:'Business Rules Log', body:`<p>A journey map implies business rules that are never explicitly written down. These rules must be documented before development begins — they drive logic in checkout, OMS, the subscription engine, and the support portal.</p>
+<blockquote>
+<p><strong>Example business rule</strong></p>
+<p>"Subscribers can pause for up to two months per year."</p>
+<p>This implies logic in: the subscription management API, the billing engine,</p>
+<p>the customer portal UI, and the CRM.</p>
+<p>None of this can be built until the rule is written down.</p>
+</blockquote>
+<p>Find at least five implied business rules in your journey map:</p>
+<table>
+<colgroup>
+<col style="width: 5%"/>
+<col style="width: 38%"/>
+<col style="width: 25%"/>
+<col style="width: 30%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>#</strong></th>
+<th><strong>Business rule</strong></th>
+<th><strong>Journey stage</strong></th>
+<th><strong>System it lives in</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>STEP 6 Self-critique — review your own journey map</strong> 15 min</p>` },
+{ id:'wb-28', module:'Lab 2 · Journey Architect', title:'Critically Review Your Own Journey Map', body:`<p>Put on a different hat. You have spent 20+ minutes producing this journey map — now step back and review it as if you were a senior consultant seeing it for the first time. Answer all four critique questions honestly. An unclear answer is a gap worth fixing before you submit.</p>
+<p class="wb-heading"><strong>Critique 1 — Emotion vs. system complexity mismatch</strong></p>
+<p>Name one stage where the emotion tag does not match the actual difficulty of the system at that stage.</p>
+<p class="wb-heading"><strong>Critique 2 — Unrealistic AI opportunity</strong></p>
+<p>Name one AI opportunity that would not be feasible at Kape Ko's launch scale. Explain why.</p>
+<p class="wb-heading"><strong>Critique 3 — Missing stage or substage</strong></p>
+<p>Name one journey stage or moment that is missing from the map entirely.</p>
+<p class="wb-heading"><strong>Critique 4 — Undocumented business rule</strong></p>
+<p>Name one implied business rule that is not captured in the Business Rules Log.</p>` },
+{ id:'wb-29', module:'Lab 2 · Journey Architect', title:'Lab 2 Deliverable', body:`<p class="wb-heading"><strong>Validated Customer Journey Map</strong></p>
+<p>Your Lab 2 deliverable contains five components. Check each before submission.</p>
+<blockquote>
+<p>☐ 9-stage journey map — all 7 fields completed for every stage (Steps 1–2)</p>
+<p>☐ Capability gap analysis — all 9 stages assessed with status, priority, and AI type (Step 3)</p>
+<p>☐ Platform recommendation — one paragraph, Kape Ko-specific, trade-offs acknowledged (Step 4)</p>
+<p>☐ Business rules log — minimum 5 rules, each traced to a stage and system (Step 5)</p>
+<p>☐ Responsible AI annotation — 3 specific things your agent got wrong, and how you corrected them</p>
+</blockquote>
+<p class="wb-heading"><strong>Responsible AI Annotation — complete before submitting:</strong></p>
+<table>
+<colgroup>
+<col style="width: 31%"/>
+<col style="width: 31%"/>
+<col style="width: 36%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>What the agent produced</strong></th>
+<th><strong>Why this is wrong or questionable</strong></th>
+<th><strong>How you corrected it</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>` },
+{ id:'wb-30', module:'Lab 2 · Journey Architect', title:'Lab 2 Assessment Rubric', body:`<p class="wb-heading"><strong>How Your Lab 2 Work Will Be Assessed</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%"/>
+<col style="width: 27%"/>
+<col style="width: 23%"/>
+<col style="width: 23%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Criteria</strong></th>
+<th><strong>Excellent</strong></th>
+<th><strong>Adequate</strong></th>
+<th><strong>Needs Work</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Journey Depth (system-level, not emotions only)</td>
+<td>All 9 stages have all 7 fields. System named for every stage. Emotions specific to Kape Ko.</td>
+<td>6+ stages complete. System named for most. Some Kape Ko specificity.</td>
+<td>Touchpoints and emotions only. No system mapping. Generic emotions.</td>
+</tr>
+<tr class="even">
+<td>Gap Analysis (honest — not falsely optimistic)</td>
+<td>All 9 stages assessed. At least 3 are ❌ or ❓. P1 gaps have implications documented.</td>
+<td>7+ stages assessed. Some gaps identified. Priorities assigned.</td>
+<td>All ✅ — unrealistic for a pre-launch startup. No prioritisation.</td>
+</tr>
+<tr class="odd">
+<td>Platform Recommendation (journey-grounded, defensible)</td>
+<td>Clear recommendation. 3+ journey-specific reasons. Trade-offs acknowledged.</td>
+<td>Recommendation present with 1–2 reasons. Trade-offs not fully addressed.</td>
+<td>No recommendation, or not connected to the journey.</td>
+</tr>
+<tr class="even">
+<td>Business Rules (specific and traceable)</td>
+<td>5+ rules. Each is specific, testable, traced to a stage and system.</td>
+<td>3–4 rules. Mostly traceable.</td>
+<td>Fewer than 3. Rules are vague or generic.</td>
+</tr>
+<tr class="odd">
+<td>Self-Critique (quality of your own review)</td>
+<td>All 4 questions answered with journey-specific observations. Named actual gaps in your own map.</td>
+<td>2–3 questions answered with some specificity.</td>
+<td>Surface-level. "Looks good" or similar non-answers.</td>
+</tr>
+</tbody>
+</table>` },
+{ id:'wb-31', module:'Wrap-up', title:'Level 1 Completion Checklist', body:`<p class="wb-heading"><strong>Before You Move to Level 2</strong></p>
+<p>Check every item below. If any is incomplete, return to the relevant step and finish it before submitting.</p>
+<p class="wb-heading"><strong>Lab 1 — Commerce Business Brief</strong></p>
+<blockquote>
+<p>☐ Discovery Triangle Summary written (Business / Customer / Technology)</p>
+<p>☐ Run 1 completed — interview without KB — Run 1 output table filled in</p>
+<p>☐ Kape Ko Knowledge Base file uploaded to agent Knowledge tab</p>
+<p>☐ Run 2 completed — same interview with KB — comparison table filled in</p>
+<p>☐ All 13 fields in the Commerce Brief completed and tagged (from Run 2 output)</p>
+<p>☐ Subscription Commerce Requirements table filled in for all 6 capabilities</p>
+<p>☐ Discovery Backlog has at least 5 open questions with priorities</p>
+<p>☐ KB Comparison Summary (Component 6) completed with specific examples</p>
+<p>☐ Responsible AI Annotation (Component 5) — 3 Run 1 hallucinations with Run 2 corrections</p>
+</blockquote>
+<p class="wb-heading"><strong>Lab 2 — Validated Customer Journey Map</strong></p>
+<blockquote>
+<p>☐ All 9 journey stages recorded with all 7 fields per stage</p>
+<p>☐ Capability Gap Analysis table completed — no stages skipped</p>
+<p>☐ Platform recommendation written and defended</p>
+<p>☐ Business Rules Log has at least 5 rules with stage and system traced</p>
+<p>☐ Self-critique completed — all 4 critique questions answered honestly</p>
+<p>☐ Responsible AI Annotation completed for the journey map</p>
+</blockquote>` },
+{ id:'wb-32', module:'Wrap-up', title:'How Level 1 Feeds Level 2', body:`<table>
+<colgroup>
+<col style="width: 29%"/>
+<col style="width: 23%"/>
+<col style="width: 46%"/>
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>What you built in Level 1</strong></th>
+<th><strong>Where it goes in Level 2</strong></th>
+<th><strong>How it is used</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Commerce Brief — Products list</td>
+<td>Lab 3: Catalog Builder</td>
+<td>Product categories and attributes generated directly from your confirmed products.</td>
+</tr>
+<tr class="even">
+<td>Commerce Brief — Buyer Persona</td>
+<td>Lab 4: Content Studio</td>
+<td>Brand voice and content tone come from your persona description.</td>
+</tr>
+<tr class="odd">
+<td>Commerce Brief — Channel Strategy</td>
+<td>Lab 5: Storefront Generator</td>
+<td>Only confirmed channels get a page built. Unconfirmed channels are out of scope.</td>
+</tr>
+<tr class="even">
+<td>Journey Map — Stage 3 Search AI</td>
+<td>Lab 6: Shopping Copilot</td>
+<td>Your search AI opportunity defines the copilot's use case.</td>
+</tr>
+<tr class="odd">
+<td>Journey Map — Stage 4 Product AI</td>
+<td>Lab 7: Commerce RAG</td>
+<td>Your product AI opportunity defines the knowledge base scope.</td>
+</tr>
+<tr class="even">
+<td>Journey Map — Stage 9 Retention AI</td>
+<td>Lab 8: Recommendation Engine</td>
+<td>Your retention AI opportunity defines the recommendation trigger logic.</td>
+</tr>
+<tr class="odd">
+<td>Discovery Backlog</td>
+<td>Level 4: Architecture</td>
+<td>Your open questions become the unresolved requirements the architecture lab must address.</td>
+</tr>
+<tr class="even">
+<td>Business Rules Log</td>
+<td>Level 4: Solution Blueprint</td>
+<td>Your business rules become functional requirements in the final solution blueprint.</td>
+</tr>
+</tbody>
+</table>
+<p><em>SONG Commerce AI Labs · Season 1 · Level 1: Commerce Explorer · Labs 1 &amp; 2 · v4.0</em></p>
+<p><em>M365 Copilot Agent Builder · Kape Ko Scenario · Learner Workbook</em></p>` }
+];
+
+let completed = {};
+try { completed = JSON.parse(localStorage.getItem('kapeko-l1-workbook-progress') || '{}'); } catch (e) { completed = {}; }
+let activeId = lessons[0].id;
+
+function save() {
+  try { localStorage.setItem('kapeko-l1-workbook-progress', JSON.stringify(completed)); } catch (e) {}
+}
+
+function moduleList() {
+  const seen = [];
+  lessons.forEach(l => { if (!seen.includes(l.module)) seen.push(l.module); });
+  return seen;
+}
+
+function renderSidebar() {
+  const wrap = document.getElementById('sidebar-modules');
+  wrap.innerHTML = '';
+  moduleList().forEach(mod => {
+    const group = document.createElement('div');
+    group.className = 'module-group';
+    const title = document.createElement('p');
+    title.className = 'module-title';
+    title.textContent = mod;
+    group.appendChild(title);
+    lessons.filter(l => l.module === mod).forEach((l) => {
+      const globalIdx = lessons.indexOf(l);
+      const btn = document.createElement('button');
+      btn.className = 'lesson-item' + (l.id === activeId ? ' active' : '') + (completed[l.id] ? ' done' : '');
+      btn.innerHTML = `
+        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="${getComputedStyle(document.documentElement).getPropertyValue('--cream-fg')}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="lesson-text">${globalIdx + 1}. ${l.title}</span>
+      `;
+      btn.addEventListener('click', () => { activeId = l.id; render(); window.scrollTo(0,0); });
+      group.appendChild(btn);
+    });
+    wrap.appendChild(group);
+  });
+
+  const doneCount = Object.values(completed).filter(Boolean).length;
+  const pct = Math.round((doneCount / lessons.length) * 100);
+  document.getElementById('progress-text').textContent = `${doneCount} / ${lessons.length} complete`;
+  document.getElementById('progress-pct').textContent = `${pct}%`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function renderContent() {
+  const idx = lessons.findIndex(l => l.id === activeId);
+  const l = lessons[idx];
+  const el = document.getElementById('content');
+  const isDone = !!completed[l.id];
+  el.innerHTML = `
+    <p class="crumb">${l.module} · Section ${idx + 1} of ${lessons.length}</p>
+    <h1 class="lesson-title">${l.title}</h1>
+    <div class="lesson-body">${l.body}</div>
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prev-btn" ${idx === 0 ? 'disabled' : ''}>&larr; Previous</button>
+      <button class="nav-btn primary" id="complete-btn">${isDone ? 'Mark as not done' : 'Mark as complete'}</button>
+      <button class="nav-btn" id="next-btn" ${idx === lessons.length - 1 ? 'disabled' : ''}>Next &rarr;</button>
+    </div>
+  `;
+  document.getElementById('complete-btn').addEventListener('click', () => {
+    completed[l.id] = !completed[l.id]; save(); render();
+  });
+  document.getElementById('prev-btn').addEventListener('click', () => {
+    if (idx > 0) { activeId = lessons[idx - 1].id; render(); window.scrollTo(0,0); }
+  });
+  document.getElementById('next-btn').addEventListener('click', () => {
+    if (idx < lessons.length - 1) { activeId = lessons[idx + 1].id; render(); window.scrollTo(0,0); }
+  });
+}
+
+function render() { renderSidebar(); renderContent(); }
+render();
+</script>
+</body>
+</html>
